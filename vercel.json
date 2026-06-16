@@ -1,9 +1,17 @@
 {
+  "installCommand": "git lfs install && git lfs pull && npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "dist/contenidos-biza/browser",
   "rewrites": [
     {
       "source": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "text/html"
+        }
+      ],
       "destination": "/index.html"
     }
   ]
