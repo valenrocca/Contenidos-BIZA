@@ -1,0 +1,21 @@
+.screen {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.media {
+  max-width: 100%;
+  max-height: 90dvh;
+  object-fit: contain;
+}
+
+.message {
+  margin: 0;
+  color: #f5f5f5;
+  font-family: system-ui, sans-serif;
+  font-size: 1.125rem;
+}

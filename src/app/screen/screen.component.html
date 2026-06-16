@@ -1,0 +1,17 @@
+@if (screen(); as currentScreen) {
+  <div class="screen">
+    @if (currentScreen.type === 'image') {
+      <img
+        class="media"
+        [src]="assetUrl()"
+        [alt]="currentScreen.alt ?? currentScreen.slug"
+      />
+    } @else {
+      <video class="media" [src]="assetUrl()" controls playsinline></video>
+    }
+  </div>
+} @else {
+  <div class="screen">
+    <p class="message">Screen not found</p>
+  </div>
+}

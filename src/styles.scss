@@ -1,0 +1,31 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background-color: #1a1a1a;
+  background-image: url('/assets/background/mobile-bg.webp');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #f5f5f5;
+}
+
+@media (min-width: 768px) {
+  body {
+    background-image: url('/assets/background/bg-desktop.webp');
+  }
+}
+
+:root {
+  --app-background: transparent;
+}
