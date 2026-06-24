@@ -26,4 +26,8 @@ export class QuizService {
   submitAnswer(date: string): Observable<QuizAnswerResponse> {
     return this.http.post<QuizAnswerResponse>('/api/quiz/answer', { date });
   }
+
+  reset(): Observable<{ ok: boolean }> {
+    return this.http.post<{ ok: boolean }>('/api/quiz/reset', {});
+  }
 }

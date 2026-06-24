@@ -34,4 +34,13 @@ async function claimFirstWinner() {
   return 'late';
 }
 
-module.exports = { isQuizClosed, claimFirstWinner };
+async function resetQuizState() {
+  const redis = getRedis();
+  if (redis) {
+    await redis.del(WINNER_KEY);
+    return;
+  }
+  devWinnerClaimed = false;
+}
+
+module.exports = { isQuizClosed, claimFirstWinner, resetQuizState };

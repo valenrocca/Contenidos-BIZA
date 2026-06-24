@@ -10,6 +10,21 @@ body {
   min-height: 100%;
 }
 
+:root {
+  --app-background: transparent;
+  --font-family: 'Helvetica-Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-family);
+  font-weight: 700;
+}
+
 body {
   background-color: #1a1a1a;
   background-image: url('/assets/background/mobile-bg.webp');
@@ -24,8 +39,4 @@ body {
     background-image: url('/assets/background/bg-desktop.webp');
     background-attachment: fixed;
   }
-}
-
-:root {
-  --app-background: transparent;
 }

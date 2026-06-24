@@ -3,6 +3,7 @@ const path = require('path');
 
 const handleQuizAnswer = require('./quiz-handler');
 const handleQuizStatus = require('./quiz-status');
+const handleQuizReset = require('./quiz-reset');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ const ONE_YEAR = 31536000;
 app.use(express.json());
 app.get('/api/quiz/status', handleQuizStatus);
 app.post('/api/quiz/answer', handleQuizAnswer);
+app.post('/api/quiz/reset', handleQuizReset);
 
 app.use(
   express.static(distPath, {

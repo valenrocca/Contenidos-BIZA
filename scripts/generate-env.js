@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const mediaCdnUrl = (process.env.MEDIA_CDN_URL ?? 'https://media.42.com.ar').replace(/\/$/, '');
-const quizContactEmail = process.env.QUIZ_CONTACT_EMAIL ?? '';
+const quizContactEmail = process.env.QUIZ_CONTACT_EMAIL ?? 'contacto.bizarrap@daleplay.la';
 const envPath = path.join(__dirname, '..', 'src', 'environments', 'environment.prod.ts');
 
 const content = `export const environment = {

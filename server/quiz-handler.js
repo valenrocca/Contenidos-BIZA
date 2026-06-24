@@ -17,7 +17,7 @@ async function handleQuizAnswer(req, res) {
     return;
   }
 
-  const correctDate = process.env.QUIZ_CORRECT_DATE ?? '2019-02-08';
+  const correctDate = process.env.QUIZ_CORRECT_DATE ?? '2021-05-15';
 
   const { date } = req.body ?? {};
   if (!date || typeof date !== 'string') {

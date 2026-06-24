@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   mediaCdnUrl: 'https://media.42.com.ar',
-  quizContactEmail: '',
+  quizContactEmail: 'contacto.bizarrap@daleplay.la',
 };

@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 import { QuizAnswerResult, QuizService } from '../core/quiz.service';
@@ -16,6 +17,8 @@ const QUIZ_RESULT_KEY = 'biza-quiz-result';
 })
 export class QuizComponent implements OnInit {
   private readonly quiz = inject(QuizService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   readonly view = signal<QuizView>('question');
   readonly selectedDate = signal('');
@@ -27,23 +30,12 @@ export class QuizComponent implements OnInit {
   readonly contactEmail = environment.quizContactEmail;
 
   ngOnInit(): void {
-    this.quiz.getStatus().subscribe({
-      next: (status) => {
-        if (status.closed) {
-          this.saveResult('late');
-          this.view.set('late');
-          this.loading.set(false);
-          return;
-        }
+    if (!environment.production && this.route.snapshot.queryParamMap.get('reset') === '1') {
+      this.resetQuizForDev();
+      return;
+    }
 
-        this.restoreLocalAttempt();
-        this.loading.set(false);
-      },
-      error: () => {
-        this.restoreLocalAttempt();
-        this.loading.set(false);
-      },
-    });
+    this.loadQuiz();
   }
 
   submit(): void {
@@ -84,8 +76,57 @@ export class QuizComponent implements OnInit {
   }
 
   contactHref(): string {
-    const email = this.contactEmail || 'contact@example.com';
-    return `mailto:${email}?subject=${encodeURIComponent('Biza quiz prize')}`;
+    const email = this.contactEmail || 'contacto.bizarrap@daleplay.la';
+    const params = new URLSearchParams({
+      view: 'cm',
+      fs: '1',
+      to: email,
+      su: 'Premio quiz Biza',
+    });
+    return `https://mail.google.com/mail/?${params.toString()}`;
+  }
+
+  private resetQuizForDev(): void {
+    localStorage.removeItem(QUIZ_RESULT_KEY);
+    this.view.set('question');
+    this.selectedDate.set('');
+    this.errorMessage.set('');
+    this.submitting.set(false);
+    this.attempted.set(false);
+    this.loading.set(true);
+
+    this.quiz.reset().subscribe({
+      next: () => {
+        void this.router.navigate(['/quiz'], { replaceUrl: true });
+        this.loadQuiz();
+      },
+      error: () => {
+        this.errorMessage.set('Reiniciá el servidor API: npm run start:api');
+        this.loading.set(false);
+      },
+    });
+  }
+
+  private loadQuiz(): void {
+    this.loading.set(true);
+
+    this.quiz.getStatus().subscribe({
+      next: (status) => {
+        if (status.closed) {
+          this.saveResult('late');
+          this.view.set('late');
+          this.loading.set(false);
+          return;
+        }
+
+        this.restoreLocalAttempt();
+        this.loading.set(false);
+      },
+      error: () => {
+        this.restoreLocalAttempt();
+        this.loading.set(false);
+      },
+    });
   }
 
   private restoreLocalAttempt(): void {

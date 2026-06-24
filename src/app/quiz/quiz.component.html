@@ -9,7 +9,7 @@
       @switch (view()) {
         @case ('question') {
           <h1 id="quiz-title" class="popup__title">
-            ¿Que dia el biza lanzo su primer session?
+            ¿Cuando fue la primera vez que Myke grabó?
           </h1>
 
           <form class="quiz-form" (ngSubmit)="submit()">
@@ -35,7 +35,7 @@
         }
 
         @case ('late') {
-          <p class="popup__late">Llegaste tarde......</p>
+          <p class="popup__late">Averiguaste tarde</p>
         }
 
         @case ('winner') {
@@ -49,7 +49,7 @@
             <p class="winner__message">
               Felicitaciones ganaste, contactate para reclamar tu premio
             </p>
-            <a class="winner__button" [href]="contactHref()">Contacto</a>
+            <a class="winner__button" [href]="contactHref()" target="_blank" rel="noopener noreferrer">Contacto</a>
           </div>
         }
       }
