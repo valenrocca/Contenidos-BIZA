@@ -28,7 +28,13 @@ export class ScreenComponent {
 
   readonly assetUrl = computed(() => {
     const screen = this.screen();
-    return screen ? this.assetUrls.mediaUrl(screen.src) : '';
+    if (!screen) {
+      return '';
+    }
+    if (screen.mediaProxy) {
+      return screen.mediaProxy;
+    }
+    return this.assetUrls.mediaUrl(screen.src);
   });
 
   readonly posterUrl = computed(() => {

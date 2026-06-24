@@ -39,7 +39,16 @@
     "slug": "img-1535",
     "type": "image",
     "src": "images/IMG_1535.jpg",
-    "alt": "IMG 1535"
+    "mediaProxy": "/api/media/img-1535",
+    "alt": "IMG 1535",
+    "hotspot": {
+      "url": "https://www.instagram.com/mondo_sound/",
+      "top": "20%",
+      "left": "38%",
+      "width": "24%",
+      "height": "28%",
+      "label": "Instagram Mondo Sound"
+    }
   },
   {
     "slug": "img-29",

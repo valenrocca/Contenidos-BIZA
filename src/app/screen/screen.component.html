@@ -1,13 +1,28 @@
 @if (screen(); as currentScreen) {
   <div class="screen">
     @if (currentScreen.type === 'image') {
-      <img
-        class="media"
-        [src]="assetUrl()"
-        [alt]="currentScreen.alt ?? currentScreen.slug"
-        decoding="async"
-        fetchpriority="high"
-      />
+      <div class="media-frame">
+        <img
+          class="media"
+          [src]="assetUrl()"
+          [alt]="currentScreen.alt ?? currentScreen.slug"
+          decoding="async"
+          fetchpriority="high"
+        />
+        @if (currentScreen.hotspot; as hotspot) {
+          <a
+            class="media-hotspot"
+            [href]="hotspot.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="hotspot.label ?? 'Enlace'"
+            [style.top]="hotspot.top"
+            [style.left]="hotspot.left"
+            [style.width]="hotspot.width"
+            [style.height]="hotspot.height"
+          ></a>
+        }
+      </div>
     } @else if (currentScreen.type === 'video') {
       <video
         class="media"
