@@ -13,6 +13,6 @@ app.post('/api/quiz/answer', handleQuizAnswer);
 app.post('/api/quiz/reset', handleQuizReset);
 app.get('/api/media/img-1535', handleImg1535);
 
-app.listen(port, () => {
-  console.log(`Quiz API running at http://localhost:${port}`);
+app.listen(port, '127.0.0.1', () => {
+  console.log(`Quiz API running at http://127.0.0.1:${port}`);
 });
