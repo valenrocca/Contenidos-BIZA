@@ -6,4 +6,6 @@ export const environment = {
   apiBaseUrl: 'http://127.0.0.1:3001',
   /** Prize contact email for quiz winner mailto button. */
   quizContactEmail: 'contacto.bizarrap@daleplay.la',
+  /** Terms PDF for quiz winner acceptance. */
+  quizTermsPdfUrl: '/assets/terminos-y-condiciones.pdf',
 };

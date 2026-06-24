@@ -29,8 +29,10 @@ export class QuizComponent implements OnInit {
   readonly submitting = signal(false);
   readonly attempted = signal(false);
   readonly loading = signal(true);
+  readonly termsAccepted = signal(false);
 
   readonly contactEmail = environment.quizContactEmail;
+  readonly termsPdfUrl = environment.quizTermsPdfUrl;
 
   ngOnInit(): void {
     if (!environment.production && this.route.snapshot.queryParamMap.get('reset') === '1') {
@@ -127,6 +129,7 @@ export class QuizComponent implements OnInit {
     this.errorMessage.set('');
     this.submitting.set(false);
     this.attempted.set(false);
+    this.termsAccepted.set(false);
     this.loading.set(true);
 
     this.quiz.reset().subscribe({

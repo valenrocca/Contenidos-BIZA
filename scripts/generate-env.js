@@ -3,6 +3,7 @@ const path = require('path');
 
 const mediaCdnUrl = (process.env.MEDIA_CDN_URL ?? 'https://media.42.com.ar').replace(/\/$/, '');
 const quizContactEmail = process.env.QUIZ_CONTACT_EMAIL ?? 'contacto.bizarrap@daleplay.la';
+const quizTermsPdfUrl = process.env.QUIZ_TERMS_PDF_URL ?? '/assets/terminos-y-condiciones.pdf';
 const envPath = path.join(__dirname, '..', 'src', 'environments', 'environment.prod.ts');
 
 const content = `export const environment = {
@@ -10,6 +11,7 @@ const content = `export const environment = {
   mediaCdnUrl: '${mediaCdnUrl}',
   apiBaseUrl: '',
   quizContactEmail: '${quizContactEmail}',
+  quizTermsPdfUrl: '${quizTermsPdfUrl}',
 };
 `;
 

@@ -93,7 +93,12 @@
         }
 
         @case ('late') {
-          <p class="popup__late">Averiguaste tarde</p>
+          <img
+            class="popup__late-image"
+            src="/assets/quiz/averiguaste-tarde.png"
+            alt="Averiguaste tarde"
+            decoding="async"
+          />
         }
 
         @case ('winner') {
@@ -107,7 +112,37 @@
             <p class="winner__message">
               Felicitaciones ganaste, contactate para reclamar tu premio
             </p>
-            <a class="winner__button" [href]="contactHref()" target="_blank" rel="noopener noreferrer">Contacto</a>
+
+            <label class="winner__terms">
+              <input
+                class="winner__terms-checkbox"
+                type="checkbox"
+                name="terms"
+                [ngModel]="termsAccepted()"
+                (ngModelChange)="termsAccepted.set($event)"
+              />
+              <span class="winner__terms-text">
+                Acepto los
+                <a
+                  class="winner__terms-link"
+                  [href]="termsPdfUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  (click)="$event.stopPropagation()"
+                >términos y condiciones</a>
+              </span>
+            </label>
+
+            @if (termsAccepted()) {
+              <a
+                class="winner__button"
+                [href]="contactHref()"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Contacto</a>
+            } @else {
+              <span class="winner__button winner__button--disabled" aria-disabled="true">Contacto</span>
+            }
           </div>
         }
       }
