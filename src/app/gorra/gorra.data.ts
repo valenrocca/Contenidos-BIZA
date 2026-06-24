@@ -25,14 +25,4 @@ export const COUNTRY_LINKS: CountryLink[] = [
     flag: '🇲🇽',
     url: 'https://www.adidas.mx/gorra-bzrp/KE1174.html',
   },
-  {
-    name: 'Chile',
-    flag: '🇨🇱',
-    url: null,
-  },
-  {
-    name: 'LAD',
-    flag: '🌎',
-    url: null,
-  },
 ];
