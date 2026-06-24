@@ -3,11 +3,15 @@ const WINNER_KEY = 'quiz:first-winner';
 let devWinnerClaimed = false;
 
 function getRedis() {
-  if (!process.env.UPSTASH_REDIS_REST_URL) {
+  const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+
+  if (!url || !token) {
     return null;
   }
+
   const { Redis } = require('@upstash/redis');
-  return Redis.fromEnv();
+  return new Redis({ url, token });
 }
 
 async function isQuizClosed() {
