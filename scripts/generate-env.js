@@ -8,6 +8,7 @@ const envPath = path.join(__dirname, '..', 'src', 'environments', 'environment.p
 const content = `export const environment = {
   production: true,
   mediaCdnUrl: '${mediaCdnUrl}',
+  apiBaseUrl: '',
   quizContactEmail: '${quizContactEmail}',
 };
 `;

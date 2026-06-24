@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
 import { AssetUrlService } from '../core/asset-url.service';
+import { apiUrl } from '../core/api-url';
 import { getScreenBySlug } from '../data/screens.data';
 
 @Component({
@@ -32,7 +33,7 @@ export class ScreenComponent {
       return '';
     }
     if (screen.mediaProxy) {
-      return screen.mediaProxy;
+      return apiUrl(screen.mediaProxy);
     }
     return this.assetUrls.mediaUrl(screen.src);
   });
