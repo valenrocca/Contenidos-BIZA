@@ -1,4 +1,12 @@
-const { claimFirstWinner, isQuizClosed } = require('./quiz-state');
+const { getClientIp } = require('./quiz-ip');
+const {
+  claimFirstWinner,
+  getMaxAttempts,
+  getAttemptCount,
+  hasExceededAttempts,
+  incrementAttemptCount,
+  isQuizClosed,
+} = require('./quiz-state');
 
 async function handleQuizAnswer(req, res) {
   if (req.method !== 'POST') {
@@ -6,9 +14,29 @@ async function handleQuizAnswer(req, res) {
     return;
   }
 
+  const ip = getClientIp(req);
+  const maxAttempts = getMaxAttempts();
+
   try {
     if (await isQuizClosed()) {
-      res.status(200).json({ result: 'late', closed: true });
+      res.status(200).json({
+        result: 'late',
+        closed: true,
+        attemptsUsed: await getAttemptCount(ip),
+        maxAttempts,
+        attemptsRemaining: 0,
+      });
+      return;
+    }
+
+    if (await hasExceededAttempts(ip)) {
+      res.status(200).json({
+        result: 'late',
+        attemptsExceeded: true,
+        attemptsUsed: await getAttemptCount(ip),
+        maxAttempts,
+        attemptsRemaining: 0,
+      });
       return;
     }
   } catch (error) {
@@ -26,11 +54,7 @@ async function handleQuizAnswer(req, res) {
     return;
   }
 
-  if (
-    hours === undefined ||
-    minutes === undefined ||
-    seconds === undefined
-  ) {
+  if (hours === undefined || minutes === undefined || seconds === undefined) {
     res.status(400).json({ error: 'Time is required.' });
     return;
   }
@@ -41,19 +65,46 @@ async function handleQuizAnswer(req, res) {
     return;
   }
 
-  if (date !== correctDate) {
-    res.status(200).json({ result: 'incorrect', reason: 'date' });
-    return;
-  }
+  const isIncorrect = date !== correctDate || submittedTime !== correctTime;
+  const reason = date !== correctDate ? 'date' : submittedTime !== correctTime ? 'time' : undefined;
 
-  if (submittedTime !== correctTime) {
-    res.status(200).json({ result: 'incorrect', reason: 'time' });
+  if (isIncorrect) {
+    const attemptsUsed = await incrementAttemptCount(ip);
+    const attemptsRemaining = Math.max(0, maxAttempts - attemptsUsed);
+
+    if (attemptsUsed >= maxAttempts) {
+      res.status(200).json({
+        result: 'late',
+        attemptsExceeded: true,
+        attemptsUsed,
+        maxAttempts,
+        attemptsRemaining: 0,
+      });
+      return;
+    }
+
+    res.status(200).json({
+      result: 'incorrect',
+      reason,
+      attemptsUsed,
+      maxAttempts,
+      attemptsRemaining,
+    });
     return;
   }
 
   try {
+    const attemptsUsed = await incrementAttemptCount(ip);
     const result = await claimFirstWinner();
-    res.status(200).json({ result, closed: result === 'winner' });
+    const attemptsRemaining = Math.max(0, maxAttempts - attemptsUsed);
+
+    res.status(200).json({
+      result,
+      closed: result === 'winner',
+      attemptsUsed,
+      maxAttempts,
+      attemptsRemaining,
+    });
   } catch (error) {
     console.error('Quiz claim failed:', error);
     res.status(500).json({ error: 'Unable to process your answer. Please try again.' });

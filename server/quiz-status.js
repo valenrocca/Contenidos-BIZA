@@ -1,4 +1,5 @@
-const { isQuizClosed } = require('./quiz-state');
+const { getClientIp } = require('./quiz-ip');
+const { getAttemptStatus, isQuizClosed } = require('./quiz-state');
 
 async function handleQuizStatus(req, res) {
   if (req.method !== 'GET') {
@@ -7,8 +8,14 @@ async function handleQuizStatus(req, res) {
   }
 
   try {
+    const ip = getClientIp(req);
     const closed = await isQuizClosed();
-    res.status(200).json({ closed });
+    const attempts = await getAttemptStatus(ip);
+
+    res.status(200).json({
+      closed,
+      ...attempts,
+    });
   } catch (error) {
     console.error('Quiz status failed:', error);
     res.status(500).json({ error: 'Unable to load quiz status.' });

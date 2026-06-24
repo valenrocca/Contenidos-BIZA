@@ -10,11 +10,19 @@ export interface QuizAnswerResponse {
   result?: QuizAnswerResult;
   reason?: 'date' | 'time';
   closed?: boolean;
+  attemptsExceeded?: boolean;
+  attemptsUsed?: number;
+  maxAttempts?: number;
+  attemptsRemaining?: number;
   error?: string;
 }
 
 export interface QuizStatusResponse {
   closed: boolean;
+  attemptsUsed: number;
+  maxAttempts: number;
+  attemptsRemaining: number;
+  attemptsExceeded: boolean;
   error?: string;
 }
 

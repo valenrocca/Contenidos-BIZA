@@ -7,7 +7,12 @@ import { QuizAnswerResult, QuizService } from '../core/quiz.service';
 
 type QuizView = 'question' | QuizAnswerResult;
 
-const QUIZ_RESULT_KEY = 'biza-quiz-result';
+interface QuizLocalState {
+  result?: Exclude<QuizAnswerResult, 'incorrect'>;
+  attemptsUsed?: number;
+}
+
+const QUIZ_STATE_KEY = 'biza-quiz-state';
 
 @Component({
   selector: 'app-quiz',
@@ -27,9 +32,11 @@ export class QuizComponent implements OnInit {
   readonly selectedSeconds = signal('');
   readonly errorMessage = signal('');
   readonly submitting = signal(false);
-  readonly attempted = signal(false);
   readonly loading = signal(true);
   readonly termsAccepted = signal(false);
+  readonly attemptsUsed = signal(0);
+  readonly maxAttempts = signal(1);
+  readonly attemptsRemaining = signal(1);
 
   readonly contactEmail = environment.quizContactEmail;
   readonly termsPdfUrl = environment.quizTermsPdfUrl;
@@ -44,7 +51,7 @@ export class QuizComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.attempted() || this.loading()) {
+    if (this.loading() || this.submitting() || this.view() !== 'question' || this.attemptsRemaining() <= 0) {
       return;
     }
 
@@ -86,10 +93,9 @@ export class QuizComponent implements OnInit {
     this.quiz.submitAnswer({ date, ...timeParts }).subscribe({
       next: (response) => {
         this.submitting.set(false);
-        this.attempted.set(true);
+        this.applyAttemptStatus(response);
 
         if (response.result === 'incorrect') {
-          this.saveResult('incorrect');
           this.errorMessage.set(
             response.reason === 'time' ? 'Hora incorrecta.' : 'Fecha incorrecta.',
           );
@@ -120,7 +126,7 @@ export class QuizComponent implements OnInit {
   }
 
   private resetQuizForDev(): void {
-    localStorage.removeItem(QUIZ_RESULT_KEY);
+    localStorage.removeItem(QUIZ_STATE_KEY);
     this.view.set('question');
     this.selectedDate.set('');
     this.selectedHours.set('');
@@ -128,8 +134,10 @@ export class QuizComponent implements OnInit {
     this.selectedSeconds.set('');
     this.errorMessage.set('');
     this.submitting.set(false);
-    this.attempted.set(false);
     this.termsAccepted.set(false);
+    this.attemptsUsed.set(0);
+    this.maxAttempts.set(1);
+    this.attemptsRemaining.set(1);
     this.loading.set(true);
 
     this.quiz.reset().subscribe({
@@ -149,6 +157,8 @@ export class QuizComponent implements OnInit {
 
     this.quiz.getStatus().subscribe({
       next: (status) => {
+        this.applyAttemptStatus(status);
+
         if (status.closed) {
           this.saveResult('late');
           this.view.set('late');
@@ -156,35 +166,67 @@ export class QuizComponent implements OnInit {
           return;
         }
 
-        this.restoreLocalAttempt();
+        if (status.attemptsExceeded) {
+          this.saveResult('late');
+          this.view.set('late');
+          this.loading.set(false);
+          return;
+        }
+
+        this.restoreLocalState();
         this.loading.set(false);
       },
       error: () => {
-        this.restoreLocalAttempt();
+        this.restoreLocalState();
         this.loading.set(false);
       },
     });
   }
 
-  private restoreLocalAttempt(): void {
-    const saved = localStorage.getItem(QUIZ_RESULT_KEY) as QuizAnswerResult | null;
-    if (!saved) {
+  private restoreLocalState(): void {
+    const saved = this.readLocalState();
+    if (!saved?.result) {
       return;
     }
 
-    this.attempted.set(true);
-
-    if (saved === 'incorrect') {
-      this.errorMessage.set('Respuesta incorrecta.');
-      return;
-    }
-
-    this.view.set(saved);
+    this.view.set(saved.result);
   }
 
-  private saveResult(result: QuizAnswerResult): void {
-    localStorage.setItem(QUIZ_RESULT_KEY, result);
-    this.attempted.set(true);
+  private saveResult(result: Exclude<QuizAnswerResult, 'incorrect'>): void {
+    const state: QuizLocalState = {
+      result,
+      attemptsUsed: this.attemptsUsed(),
+    };
+    localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
+  }
+
+  private readLocalState(): QuizLocalState | null {
+    const raw = localStorage.getItem(QUIZ_STATE_KEY);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(raw) as QuizLocalState;
+    } catch {
+      return null;
+    }
+  }
+
+  private applyAttemptStatus(status: {
+    attemptsUsed?: number;
+    maxAttempts?: number;
+    attemptsRemaining?: number;
+    attemptsExceeded?: boolean;
+  }): void {
+    const maxAttempts = status.maxAttempts ?? this.maxAttempts();
+    const attemptsUsed = status.attemptsUsed ?? this.attemptsUsed();
+    const attemptsRemaining =
+      status.attemptsRemaining ?? Math.max(0, maxAttempts - attemptsUsed);
+
+    this.maxAttempts.set(maxAttempts);
+    this.attemptsUsed.set(attemptsUsed);
+    this.attemptsRemaining.set(status.attemptsExceeded ? 0 : attemptsRemaining);
   }
 
   private readTimePart(value: string | number | null | undefined): number | null {

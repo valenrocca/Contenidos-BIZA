@@ -21,7 +21,7 @@
               name="date"
               [ngModel]="selectedDate()"
               (ngModelChange)="selectedDate.set($event)"
-              [disabled]="submitting() || attempted()"
+              [disabled]="submitting() || attemptsRemaining() <= 0"
               required
             />
 
@@ -40,7 +40,7 @@
                   placeholder="00"
                   [ngModel]="selectedHours()"
                   (ngModelChange)="selectedHours.set($event)"
-                  [disabled]="submitting() || attempted()"
+                  [disabled]="submitting() || attemptsRemaining() <= 0"
                   required
                 />
               </div>
@@ -58,7 +58,7 @@
                   placeholder="00"
                   [ngModel]="selectedMinutes()"
                   (ngModelChange)="selectedMinutes.set($event)"
-                  [disabled]="submitting() || attempted()"
+                  [disabled]="submitting() || attemptsRemaining() <= 0"
                   required
                 />
               </div>
@@ -76,16 +76,22 @@
                   placeholder="00"
                   [ngModel]="selectedSeconds()"
                   (ngModelChange)="selectedSeconds.set($event)"
-                  [disabled]="submitting() || attempted()"
+                  [disabled]="submitting() || attemptsRemaining() <= 0"
                   required
                 />
               </div>
             </div>
 
-            <button class="quiz-form__submit" type="submit" [disabled]="submitting() || attempted()">
+            <button class="quiz-form__submit" type="submit" [disabled]="submitting() || attemptsRemaining() <= 0">
               {{ submitting() ? 'Comprobando…' : 'Enviar' }}
             </button>
           </form>
+
+          @if (attemptsRemaining() > 0 && maxAttempts() > 1) {
+            <p class="quiz-form__attempts">
+              Te quedan {{ attemptsRemaining() }} intento{{ attemptsRemaining() === 1 ? '' : 's' }}.
+            </p>
+          }
 
           @if (errorMessage()) {
             <p class="popup__error" role="alert">{{ errorMessage() }}</p>
