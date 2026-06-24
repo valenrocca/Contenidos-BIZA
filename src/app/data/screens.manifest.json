@@ -47,6 +47,7 @@
       "left": "38%",
       "width": "24%",
       "height": "28%",
+      "offsetY": "10px",
       "label": "Instagram Mondo Sound"
     }
   },

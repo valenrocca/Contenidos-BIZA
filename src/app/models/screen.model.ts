@@ -7,6 +7,8 @@ export interface ScreenHotspot {
   width: string;
   height: string;
   label?: string;
+  /** Position offset applied with translateY for responsive nudges. */
+  offsetY?: string;
 }
 
 export interface ScreenConfig {
