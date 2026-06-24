@@ -10,18 +10,31 @@
           fetchpriority="high"
         />
         @if (currentScreen.hotspot; as hotspot) {
-          <a
-            class="media-hotspot"
-            [href]="hotspot.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            [attr.aria-label]="hotspot.label ?? 'Enlace'"
-            [style.top]="hotspot.top"
-            [style.left]="hotspot.left"
-            [style.width]="hotspot.width"
-            [style.height]="hotspot.height"
-            [style.transform]="hotspot.offsetY ? 'translateY(' + hotspot.offsetY + ')' : null"
-          ></a>
+          @if (hotspot.url.startsWith('/')) {
+            <a
+              class="media-hotspot"
+              [routerLink]="hotspot.url"
+              [attr.aria-label]="hotspot.label ?? 'Enlace'"
+              [style.top]="hotspot.top"
+              [style.left]="hotspot.left"
+              [style.width]="hotspot.width"
+              [style.height]="hotspot.height"
+              [style.transform]="hotspot.offsetY ? 'translateY(' + hotspot.offsetY + ')' : null"
+            ></a>
+          } @else {
+            <a
+              class="media-hotspot"
+              [href]="hotspot.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="hotspot.label ?? 'Enlace'"
+              [style.top]="hotspot.top"
+              [style.left]="hotspot.left"
+              [style.width]="hotspot.width"
+              [style.height]="hotspot.height"
+              [style.transform]="hotspot.offsetY ? 'translateY(' + hotspot.offsetY + ')' : null"
+            ></a>
+          }
         }
       </div>
     } @else if (currentScreen.type === 'video') {

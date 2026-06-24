@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
 import { AssetUrlService } from '../core/asset-url.service';
@@ -9,7 +9,7 @@ import { getScreenBySlug } from '../data/screens.data';
 
 @Component({
   selector: 'app-screen',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './screen.component.html',
   styleUrl: './screen.component.scss',
 })

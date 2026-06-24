@@ -8,6 +8,7 @@ export type QuizAnswerResult = 'incorrect' | 'winner' | 'late';
 
 export interface QuizAnswerResponse {
   result?: QuizAnswerResult;
+  reason?: 'date' | 'time';
   closed?: boolean;
   error?: string;
 }
@@ -15,6 +16,13 @@ export interface QuizAnswerResponse {
 export interface QuizStatusResponse {
   closed: boolean;
   error?: string;
+}
+
+export interface QuizAnswerPayload {
+  date: string;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -25,8 +33,8 @@ export class QuizService {
     return this.http.get<QuizStatusResponse>(apiUrl('/api/quiz/status'));
   }
 
-  submitAnswer(date: string): Observable<QuizAnswerResponse> {
-    return this.http.post<QuizAnswerResponse>(apiUrl('/api/quiz/answer'), { date });
+  submitAnswer(payload: QuizAnswerPayload): Observable<QuizAnswerResponse> {
+    return this.http.post<QuizAnswerResponse>(apiUrl('/api/quiz/answer'), payload);
   }
 
   reset(): Observable<{ ok: boolean }> {

@@ -13,7 +13,7 @@
           </h1>
 
           <form class="quiz-form" (ngSubmit)="submit()">
-            <label class="quiz-form__label" for="quiz-date">TU RESPUESTA</label>
+            <label class="quiz-form__label" for="quiz-date">Fecha</label>
             <input
               id="quiz-date"
               class="quiz-form__input"
@@ -24,6 +24,64 @@
               [disabled]="submitting() || attempted()"
               required
             />
+
+            <span class="quiz-form__label">Hora</span>
+            <div class="quiz-form__time">
+              <div class="quiz-form__time-field">
+                <label class="quiz-form__time-label" for="quiz-hours">Hs</label>
+                <input
+                  id="quiz-hours"
+                  class="quiz-form__input quiz-form__input--time"
+                  type="number"
+                  name="hours"
+                  min="0"
+                  max="23"
+                  inputmode="numeric"
+                  placeholder="00"
+                  [ngModel]="selectedHours()"
+                  (ngModelChange)="selectedHours.set($event)"
+                  [disabled]="submitting() || attempted()"
+                  required
+                />
+              </div>
+              <span class="quiz-form__time-separator" aria-hidden="true">:</span>
+              <div class="quiz-form__time-field">
+                <label class="quiz-form__time-label" for="quiz-minutes">Min</label>
+                <input
+                  id="quiz-minutes"
+                  class="quiz-form__input quiz-form__input--time"
+                  type="number"
+                  name="minutes"
+                  min="0"
+                  max="59"
+                  inputmode="numeric"
+                  placeholder="00"
+                  [ngModel]="selectedMinutes()"
+                  (ngModelChange)="selectedMinutes.set($event)"
+                  [disabled]="submitting() || attempted()"
+                  required
+                />
+              </div>
+              <span class="quiz-form__time-separator" aria-hidden="true">:</span>
+              <div class="quiz-form__time-field">
+                <label class="quiz-form__time-label" for="quiz-seconds">Seg</label>
+                <input
+                  id="quiz-seconds"
+                  class="quiz-form__input quiz-form__input--time"
+                  type="number"
+                  name="seconds"
+                  min="0"
+                  max="59"
+                  inputmode="numeric"
+                  placeholder="00"
+                  [ngModel]="selectedSeconds()"
+                  (ngModelChange)="selectedSeconds.set($event)"
+                  [disabled]="submitting() || attempted()"
+                  required
+                />
+              </div>
+            </div>
+
             <button class="quiz-form__submit" type="submit" [disabled]="submitting() || attempted()">
               {{ submitting() ? 'Comprobando…' : 'Enviar' }}
             </button>

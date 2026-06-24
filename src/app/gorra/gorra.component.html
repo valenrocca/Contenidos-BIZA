@@ -1,0 +1,26 @@
+<div class="gorra-page">
+  <div class="gorra-panel">
+    <h1 class="gorra-title">Elegí tu país</h1>
+
+    <div class="gorra-list">
+      @for (country of countries; track country.name) {
+        @if (country.url) {
+          <a
+            class="gorra-button"
+            [href]="country.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="gorra-button__flag" aria-hidden="true">{{ country.flag }}</span>
+            <span class="gorra-button__name">{{ country.name }}</span>
+          </a>
+        } @else {
+          <span class="gorra-button gorra-button--disabled" aria-disabled="true">
+            <span class="gorra-button__flag" aria-hidden="true">{{ country.flag }}</span>
+            <span class="gorra-button__name">{{ country.name }}</span>
+          </span>
+        }
+      }
+    </div>
+  </div>
+</div>

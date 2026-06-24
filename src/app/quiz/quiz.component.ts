@@ -22,6 +22,9 @@ export class QuizComponent implements OnInit {
 
   readonly view = signal<QuizView>('question');
   readonly selectedDate = signal('');
+  readonly selectedHours = signal('');
+  readonly selectedMinutes = signal('');
+  readonly selectedSeconds = signal('');
   readonly errorMessage = signal('');
   readonly submitting = signal(false);
   readonly attempted = signal(false);
@@ -44,22 +47,50 @@ export class QuizComponent implements OnInit {
     }
 
     const date = this.selectedDate().trim();
+    const hours = this.readTimePart(this.selectedHours());
+    const minutes = this.readTimePart(this.selectedMinutes());
+    const seconds = this.readTimePart(this.selectedSeconds());
+
     if (!date) {
       this.errorMessage.set('Selecciona una fecha.');
+      return;
+    }
+
+    if (hours === null || minutes === null || seconds === null) {
+      this.errorMessage.set('Completá hora, minutos y segundos.');
+      return;
+    }
+
+    const timeParts = { hours, minutes, seconds };
+
+    if (
+      !Number.isInteger(timeParts.hours) ||
+      !Number.isInteger(timeParts.minutes) ||
+      !Number.isInteger(timeParts.seconds) ||
+      timeParts.hours < 0 ||
+      timeParts.hours > 23 ||
+      timeParts.minutes < 0 ||
+      timeParts.minutes > 59 ||
+      timeParts.seconds < 0 ||
+      timeParts.seconds > 59
+    ) {
+      this.errorMessage.set('La hora ingresada no es válida.');
       return;
     }
 
     this.submitting.set(true);
     this.errorMessage.set('');
 
-    this.quiz.submitAnswer(date).subscribe({
+    this.quiz.submitAnswer({ date, ...timeParts }).subscribe({
       next: (response) => {
         this.submitting.set(false);
         this.attempted.set(true);
 
         if (response.result === 'incorrect') {
           this.saveResult('incorrect');
-          this.errorMessage.set('Fecha incorrecta.');
+          this.errorMessage.set(
+            response.reason === 'time' ? 'Hora incorrecta.' : 'Fecha incorrecta.',
+          );
           return;
         }
 
@@ -81,7 +112,7 @@ export class QuizComponent implements OnInit {
       view: 'cm',
       fs: '1',
       to: email,
-      su: 'Premio quiz Biza',
+      su: '42',
     });
     return `https://mail.google.com/mail/?${params.toString()}`;
   }
@@ -90,6 +121,9 @@ export class QuizComponent implements OnInit {
     localStorage.removeItem(QUIZ_RESULT_KEY);
     this.view.set('question');
     this.selectedDate.set('');
+    this.selectedHours.set('');
+    this.selectedMinutes.set('');
+    this.selectedSeconds.set('');
     this.errorMessage.set('');
     this.submitting.set(false);
     this.attempted.set(false);
@@ -138,7 +172,7 @@ export class QuizComponent implements OnInit {
     this.attempted.set(true);
 
     if (saved === 'incorrect') {
-      this.errorMessage.set('Fecha incorrecta.');
+      this.errorMessage.set('Respuesta incorrecta.');
       return;
     }
 
@@ -148,5 +182,14 @@ export class QuizComponent implements OnInit {
   private saveResult(result: QuizAnswerResult): void {
     localStorage.setItem(QUIZ_RESULT_KEY, result);
     this.attempted.set(true);
+  }
+
+  private readTimePart(value: string | number | null | undefined): number | null {
+    if (value === '' || value === null || value === undefined) {
+      return null;
+    }
+
+    const num = Number(value);
+    return Number.isInteger(num) ? num : null;
   }
 }
