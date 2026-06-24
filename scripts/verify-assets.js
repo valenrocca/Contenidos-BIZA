@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const assetsDir = path.join(__dirname, '..', 'src', 'assets');
+const assetsDir = path.join(__dirname, '..', 'src', 'assets', 'background');
 const lfsMarker = 'version https://git-lfs.github.com/spec/v1';
 
 function walk(dir, files = []) {
@@ -9,7 +9,7 @@ function walk(dir, files = []) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       walk(fullPath, files);
-    } else if (entry.name !== '.gitkeep' && entry.name !== 'screens.manifest.json') {
+    } else if (entry.name !== '.gitkeep') {
       files.push(fullPath);
     }
   }

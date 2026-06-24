@@ -1,0 +1,218 @@
+[
+  {
+    "slug": "1",
+    "type": "image",
+    "src": "images/1.jpg",
+    "alt": "1"
+  },
+  {
+    "slug": "2",
+    "type": "image",
+    "src": "images/2.jpg",
+    "alt": "2"
+  },
+  {
+    "slug": "3",
+    "type": "image",
+    "src": "images/3.jpg",
+    "alt": "3"
+  },
+  {
+    "slug": "4",
+    "type": "image",
+    "src": "images/4.jpg",
+    "alt": "4"
+  },
+  {
+    "slug": "5",
+    "type": "image",
+    "src": "images/5.jpg",
+    "alt": "5"
+  },
+  {
+    "slug": "6",
+    "type": "image",
+    "src": "images/6.jpg",
+    "alt": "6"
+  },
+  {
+    "slug": "img-1535",
+    "type": "image",
+    "src": "images/IMG_1535.jpg",
+    "alt": "IMG 1535"
+  },
+  {
+    "slug": "img-29",
+    "type": "image",
+    "src": "images/IMG_29.jpg",
+    "alt": "IMG 29"
+  },
+  {
+    "slug": "img-31",
+    "type": "image",
+    "src": "images/IMG_31.jpg",
+    "alt": "IMG 31"
+  },
+  {
+    "slug": "img-7858",
+    "type": "image",
+    "src": "images/IMG_7858.jpg",
+    "alt": "IMG 7858"
+  },
+  {
+    "slug": "bananero",
+    "type": "image",
+    "src": "images/bananero.JPG",
+    "alt": "Bananero"
+  },
+  {
+    "slug": "bananero-2",
+    "type": "image",
+    "src": "images/bananero 2.JPG",
+    "alt": "Bananero 2"
+  },
+  {
+    "slug": "logo-adidas-bzrp",
+    "type": "image",
+    "src": "images/logo adidas bzrp.JPG",
+    "alt": "Logo Adidas BZRP"
+  },
+  {
+    "slug": "skrillex-duko",
+    "type": "image",
+    "src": "images/skrillex duko.JPG",
+    "alt": "Skrillex Duko"
+  },
+  {
+    "slug": "img-806-v2",
+    "type": "image",
+    "src": "images/IMG_806 v2.jpg",
+    "alt": "IMG 806 v2"
+  },
+  {
+    "slug": "img-35-v2",
+    "type": "image",
+    "src": "images/IMG_35 v2.jpg",
+    "alt": "IMG 35 v2"
+  },
+  {
+    "slug": "vid-05",
+    "type": "video",
+    "src": "videos/VID_05.mp4"
+  },
+  {
+    "slug": "vid-06",
+    "type": "video",
+    "src": "videos/VID_06.mp4"
+  },
+  {
+    "slug": "vid-08",
+    "type": "video",
+    "src": "videos/VID_08.mp4"
+  },
+  {
+    "slug": "vid-12",
+    "type": "video",
+    "src": "videos/VID_12.mp4"
+  },
+  {
+    "slug": "vid-14",
+    "type": "video",
+    "src": "videos/VID_14.mp4"
+  },
+  {
+    "slug": "vid-15",
+    "type": "video",
+    "src": "videos/VID_15.mp4"
+  },
+  {
+    "slug": "vid-19",
+    "type": "video",
+    "src": "videos/VID_19.mp4"
+  },
+  {
+    "slug": "vid-20",
+    "type": "video",
+    "src": "videos/VID_20.mp4"
+  },
+  {
+    "slug": "vid-21",
+    "type": "video",
+    "src": "videos/VID_21.mp4"
+  },
+  {
+    "slug": "vid-22",
+    "type": "video",
+    "src": "videos/VID_22.mp4"
+  },
+  {
+    "slug": "vid-23",
+    "type": "video",
+    "src": "videos/VID_23.mp4"
+  },
+  {
+    "slug": "vid-24",
+    "type": "video",
+    "src": "videos/VID_24.mp4"
+  },
+  {
+    "slug": "vid-25",
+    "type": "video",
+    "src": "videos/VID_25.mp4"
+  },
+  {
+    "slug": "vid-26",
+    "type": "video",
+    "src": "videos/VID_26.mp4"
+  },
+  {
+    "slug": "vid-27",
+    "type": "video",
+    "src": "videos/VID_27.mp4"
+  },
+  {
+    "slug": "vid-28",
+    "type": "video",
+    "src": "videos/VID_28.mp4"
+  },
+  {
+    "slug": "vid-30",
+    "type": "video",
+    "src": "videos/VID_30.mp4"
+  },
+  {
+    "slug": "vid-32",
+    "type": "video",
+    "src": "videos/VID_32.mp4"
+  },
+  {
+    "slug": "vid-33",
+    "type": "video",
+    "src": "videos/VID_33.mp4"
+  },
+  {
+    "slug": "vid-34",
+    "type": "video",
+    "src": "videos/VID_34.mp4"
+  },
+  {
+    "slug": "vid-35",
+    "type": "video",
+    "src": "videos/VID_35.mp4"
+  },
+  {
+    "slug": "vid-36",
+    "type": "video",
+    "src": "videos/VID_36.mp4"
+  },
+  {
+    "slug": "beat-boobytrap",
+    "type": "audio",
+    "src": "audio/beat boobytrap.mp3"
+  },
+  {
+    "slug": "beat-ms",
+    "type": "audio",
+    "src": "audio/beat ms.mp3"
+  }
+]

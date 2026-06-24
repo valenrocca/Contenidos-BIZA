@@ -1,0 +1,218 @@
+.quiz-page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  position: relative;
+}
+
+.quiz-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.popup {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 28rem);
+}
+
+.popup__panel {
+  padding: 2rem 1.75rem 1.75rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background-color: #1a1a1a;
+  background-image: url('/assets/background/mobile-bg.webp');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .popup__panel {
+    background-image: url('/assets/background/bg-desktop.webp');
+    padding: 2.5rem 2rem 2rem;
+  }
+}
+
+.popup__loading {
+  margin: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  color: rgba(250, 247, 242, 0.85);
+}
+
+.popup__title {
+  margin: 0 0 1.75rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.5rem, 4.5vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: #faf7f2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.quiz-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quiz-form__label {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.82);
+}
+
+.quiz-form__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.35);
+  color: #faf7f2;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  backdrop-filter: blur(6px);
+
+  &:focus {
+    outline: 2px solid rgba(250, 247, 242, 0.45);
+    outline-offset: 2px;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
+
+.quiz-form__submit {
+  margin-top: 0.35rem;
+  padding: 0.85rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f0e6d8 0%, #d4c4a8 100%);
+  color: #1a1a1a;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+}
+
+.popup__error {
+  margin: 1rem 0 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9rem;
+  color: #ffb4b4;
+}
+
+.popup__late {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-style: italic;
+  color: #faf7f2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.winner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.winner__tick {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.winner__tick-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.winner__tick-circle {
+  stroke: #8fd99a;
+  stroke-width: 2.5;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: draw-circle 0.55s ease forwards;
+}
+
+.winner__tick-check {
+  stroke: #8fd99a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+  animation: draw-check 0.35s 0.45s ease forwards;
+}
+
+.winner__message {
+  margin: 0;
+  max-width: 18rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  color: #faf7f2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.winner__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  background: #8fd99a;
+  color: #123019;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  }
+}
+
+@keyframes draw-circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

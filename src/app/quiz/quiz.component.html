@@ -1,0 +1,59 @@
+<div class="quiz-page">
+  <div class="quiz-backdrop" aria-hidden="true"></div>
+
+  <div class="popup" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+    <div class="popup__panel">
+      @if (loading()) {
+        <p class="popup__loading">Cargando…</p>
+      } @else {
+      @switch (view()) {
+        @case ('question') {
+          <h1 id="quiz-title" class="popup__title">
+            ¿Que dia el biza lanzo su primer session?
+          </h1>
+
+          <form class="quiz-form" (ngSubmit)="submit()">
+            <label class="quiz-form__label" for="quiz-date">TU RESPUESTA</label>
+            <input
+              id="quiz-date"
+              class="quiz-form__input"
+              type="date"
+              name="date"
+              [ngModel]="selectedDate()"
+              (ngModelChange)="selectedDate.set($event)"
+              [disabled]="submitting() || attempted()"
+              required
+            />
+            <button class="quiz-form__submit" type="submit" [disabled]="submitting() || attempted()">
+              {{ submitting() ? 'Comprobando…' : 'Enviar' }}
+            </button>
+          </form>
+
+          @if (errorMessage()) {
+            <p class="popup__error" role="alert">{{ errorMessage() }}</p>
+          }
+        }
+
+        @case ('late') {
+          <p class="popup__late">Llegaste tarde......</p>
+        }
+
+        @case ('winner') {
+          <div class="winner">
+            <div class="winner__tick" aria-hidden="true">
+              <svg viewBox="0 0 52 52" class="winner__tick-icon">
+                <circle class="winner__tick-circle" cx="26" cy="26" r="24" fill="none" />
+                <path class="winner__tick-check" fill="none" d="M14 27l7 7 16-16" />
+              </svg>
+            </div>
+            <p class="winner__message">
+              Felicitaciones ganaste, contactate para reclamar tu premio
+            </p>
+            <a class="winner__button" [href]="contactHref()">Contacto</a>
+          </div>
+        }
+      }
+      }
+    </div>
+  </div>
+</div>

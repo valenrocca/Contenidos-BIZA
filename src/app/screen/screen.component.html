@@ -5,9 +5,38 @@
         class="media"
         [src]="assetUrl()"
         [alt]="currentScreen.alt ?? currentScreen.slug"
+        decoding="async"
+        fetchpriority="high"
       />
+    } @else if (currentScreen.type === 'video') {
+      <video
+        class="media"
+        [src]="assetUrl()"
+        [poster]="posterUrl()"
+        controls
+        playsinline
+        preload="none"
+      ></video>
     } @else {
-      <video class="media" [src]="assetUrl()" controls playsinline></video>
+      <div class="audio-player">
+        <audio
+          #audio
+          class="audio-player__element"
+          [src]="assetUrl()"
+          preload="none"
+          (contextmenu)="$event.preventDefault()"
+          (play)="onAudioPlayState(true)"
+          (pause)="onAudioPlayState(false)"
+          (ended)="onAudioPlayState(false)"
+        ></audio>
+        <button
+          type="button"
+          class="audio-player__button"
+          (click)="toggleAudio(audio)"
+        >
+          {{ isAudioPlaying() ? 'Pausar' : 'Reproducir' }}
+        </button>
+      </div>
     }
   </div>
 } @else {
