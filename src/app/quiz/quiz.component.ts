@@ -42,12 +42,9 @@ export class QuizComponent implements OnInit {
   readonly termsPdfUrl = environment.quizTermsPdfUrl;
 
   ngOnInit(): void {
-    if (!environment.production && this.route.snapshot.queryParamMap.get('reset') === '1') {
-      this.resetQuizForDev();
-      return;
-    }
-
-    this.loadQuiz();
+    // Quiz desactivado: solo se muestra la vista "averiguaste tarde".
+    this.view.set('late');
+    this.loading.set(false);
   }
 
   submit(): void {
@@ -97,7 +94,7 @@ export class QuizComponent implements OnInit {
 
         if (response.result === 'incorrect') {
           this.errorMessage.set(
-            response.reason === 'time' ? 'Hora incorrecta.' : 'Fecha incorrecta.',
+            response.reason === 'time' ? 'Hora incorrecta averigua bien' : 'Fecha incorrecta.',
           );
           return;
         }
